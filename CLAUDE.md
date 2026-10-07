@@ -189,6 +189,15 @@ python -m http.server 8000
 
 실행 후 http://localhost:8000 에 접속합니다. (Python이 없다면 `npx serve` 등 아무 정적 서버나 사용해도 됩니다.)
 
+## 배포 (GitHub Pages)
+
+- 저장소: https://github.com/sgn07028-dot/my-blog (공개)
+- 사이트: https://sgn07028-dot.github.io/my-blog/
+- `main` 브랜치의 루트를 그대로 배포합니다. **빌드 단계는 없습니다.** `git push`만 하면 1~2분 뒤 사이트에 반영됩니다.
+- `.nojekyll` 파일은 GitHub Pages의 Jekyll 변환을 끄기 위한 것이므로 지우지 않습니다.
+- 사이트가 `/my-blog/` 하위 경로에서 열리므로, 파일 경로는 `/`로 시작하는 절대 경로 대신 `css/style.css`처럼 **상대 경로**로 씁니다.
+- 커밋 작성자 이메일은 GitHub noreply 주소를 씁니다. 개인 이메일을 커밋에 넣지 않습니다.
+
 ## 코드 스타일
 
 - 들여쓰기 2칸, 세미콜론 사용, 문자열은 작은따옴표, `const`/`let` 사용(`var` 금지).
