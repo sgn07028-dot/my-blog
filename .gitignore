@@ -1,0 +1,13 @@
+# 개인 Claude Code 설정 (launch.json 같은 프로젝트 설정은 공유)
+.claude/settings.local.json
+
+# Python
+__pycache__/
+*.pyc
+
+# OS / 편집기
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

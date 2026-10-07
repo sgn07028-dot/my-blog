@@ -1,0 +1,37 @@
+[
+  {
+    "file": "2026-10-07-obsidian-to-blog.md",
+    "title": "옵시디언에서 블로그로 글 올리기",
+    "date": "2026-10-07",
+    "description": "옵시디언 볼트에서 쓴 글을 스크립트 한 번으로 블로그에 올리는 흐름을 정리했습니다.",
+    "tags": ["TIL", "옵시디언"]
+  },
+  {
+    "file": "2026-10-06-basic-terminal-commands.md",
+    "title": "꼭 알아야 할 기초 터미널 명령어",
+    "date": "2026-10-06",
+    "description": "cd, mkdir, ls처럼 코딩을 시작할 때 가장 먼저 만나는 터미널 명령어를 간단히 정리했습니다.",
+    "tags": ["TIL", "터미널"]
+  },
+  {
+    "file": "2026-10-06-today-i-learned.md",
+    "title": "오늘 배운 것",
+    "date": "2026-10-06",
+    "description": "클로드 코드로 블로그를 만들면서 알게 된 HTML, CSS, JavaScript의 역할을 정리했습니다.",
+    "tags": ["TIL", "웹개발"]
+  },
+  {
+    "file": "2026-10-06-hello-world.md",
+    "title": "블로그를 시작합니다",
+    "date": "2026-10-06",
+    "description": "프레임워크 없이 HTML, CSS, JavaScript만으로 만든 마크다운 블로그의 첫 글입니다.",
+    "tags": ["일상", "블로그"]
+  },
+  {
+    "file": "2026-10-05-markdown-guide.md",
+    "title": "마크다운 문법 가이드",
+    "date": "2026-10-05",
+    "description": "이 블로그에서 쓸 수 있는 마크다운 문법을 한곳에 모았습니다.",
+    "tags": ["마크다운", "블로그"]
+  }
+]
