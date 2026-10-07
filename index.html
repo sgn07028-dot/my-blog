@@ -1,49 +1,55 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="마크다운으로 쓰는 개인 블로그">
   <title>My Blog</title>
   <script>
-    // 첫 렌더링 전에 테마를 정해 깜빡임(FOUC)을 막는다
+    // 첫 렌더링 전에 테마를 정해 깜빡임(FOUC)을 막는다. 기본은 블랙 네온(dark)이다
     (function () {
       var theme = null;
       try { theme = localStorage.getItem('theme'); } catch (e) {}
-      if (theme !== 'light' && theme !== 'dark') {
-        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      }
-      document.documentElement.dataset.theme = theme;
+      document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
     })();
   </script>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <a class="skip-link" href="#app">본문으로 건너뛰기</a>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="site-title" href="#/">My Blog</a>
-      <button class="theme-toggle" type="button" aria-label="다크 모드로 전환" aria-pressed="false">
-        <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-          <circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/>
-          <path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-          <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-        </svg>
-      </button>
-    </div>
-  </header>
 
-  <main id="app" class="container" tabindex="-1">
-    <p class="status">불러오는 중…</p>
-  </main>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-inner">
+        <div class="brand-row">
+          <a class="logo" href="#/" aria-label="My Blog 홈"><span class="logo-prompt" aria-hidden="true">&gt;</span>my_blog<span class="logo-cursor" aria-hidden="true">_</span></a>
+          <button class="theme-toggle" type="button" aria-label="라이트 모드로 전환" aria-pressed="true">
+            <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+        <p class="tagline">// 마크다운으로 기록하는 생각과 배움</p>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>© <span id="year"></span> My Blog · 마크다운으로 작성되었습니다.</p>
-    </div>
-  </footer>
+        <nav class="side-nav" aria-labelledby="tag-nav-heading">
+          <h2 class="side-heading" id="tag-nav-heading">TAGS</h2>
+          <ul class="tag-nav" id="tag-nav"></ul>
+        </nav>
+      </div>
+    </aside>
+
+    <main id="app" tabindex="-1">
+      <p class="status">불러오는 중…</p>
+    </main>
+
+    <footer class="site-footer">
+      <p>© <span id="year"></span> my_blog · written in markdown</p>
+    </footer>
+  </div>
 
   <script type="module" src="js/main.js"></script>
 </body>

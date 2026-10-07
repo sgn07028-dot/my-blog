@@ -7,6 +7,7 @@ const POSTS_DIR = 'posts/';
 const FETCH_OPTIONS = { cache: 'no-cache' };
 
 const app = document.getElementById('app');
+const tagNav = document.getElementById('tag-nav');
 const dateFormatter = new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
 
 let postsPromise = null;
@@ -53,27 +54,45 @@ function tagList(tags) {
   return `<ul class="tag-list">${items}</ul>`;
 }
 
-function setPage(title, html) {
+function setPage(title, html, view) {
   document.title = title ? `${title} · ${SITE_TITLE}` : SITE_TITLE;
-  app.innerHTML = html;
+  app.innerHTML = `<div class="view view-${view}">${html}</div>`;
+}
+
+// 사이드바 태그 목록: 글이 많은 태그부터 보여 주고 지금 보고 있는 태그를 표시한다
+function renderTagNav(posts, activeTag) {
+  const counts = new Map();
+  for (const post of posts) {
+    for (const tag of post.tags) counts.set(tag, (counts.get(tag) || 0) + 1);
+  }
+  const sorted = [...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'ko'));
+  const item = (href, label, count, active) =>
+    `<li><a href="${href}"${active ? ' aria-current="page"' : ''}>` +
+    `<span class="tag-nav-label">${label}</span><span class="tag-nav-count">${count}</span></a></li>`;
+
+  tagNav.innerHTML =
+    item('#/', '전체 글', posts.length, activeTag === '') +
+    sorted.map(([tag, count]) => item(`#/tag/${encodeURIComponent(tag)}`, `#${escapeHtml(tag)}`, count, tag === activeTag)).join('');
 }
 
 /* ===== 화면 ===== */
 
 function renderList(posts, tag) {
   const heading = tag
-    ? `<a class="back-link" href="#/">← 전체 글</a>
+    ? `<p class="prompt">&gt; grep -l "#${escapeHtml(tag)}" ./posts</p>
        <h1 class="page-heading">#${escapeHtml(tag)}</h1>
-       <p class="page-subheading">${posts.length}개의 글</p>`
-    : `<h1 class="page-heading">최근 글</h1>
-       <p class="page-subheading">마크다운으로 기록하는 생각과 배움</p>`;
+       <p class="page-subheading">${posts.length}개의 글 · <a href="#/">전체 글 보기</a></p>`
+    : `<p class="prompt">&gt; ls -t ./posts</p>
+       <h1 class="page-heading">최근 글</h1>
+       <p class="page-subheading">마크다운으로 기록하는 생각과 배움 · ${posts.length}개의 글</p>`;
 
   const items = posts.length
     ? posts
         .map(
-          (post) => `
+          (post, i) => `
       <li class="post-item">
-        <article>
+        <article class="post-card">
+          <span class="post-index" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
           <h2 class="post-item-title"><a href="#/post/${encodeURIComponent(post.slug)}">${escapeHtml(post.title || post.slug)}</a></h2>
           <div class="post-meta">${formatDate(post.date)}</div>
           ${post.description ? `<p class="post-item-desc">${escapeHtml(post.description)}</p>` : ''}
@@ -84,7 +103,7 @@ function renderList(posts, tag) {
         .join('')
     : '<li class="post-item"><p class="status">아직 글이 없습니다.</p></li>';
 
-  setPage(tag ? `#${tag}` : '', `${heading}<ul class="post-list">${items}</ul>`);
+  setPage(tag ? `#${tag}` : '', `${heading}<ul class="post-list">${items}</ul>`, 'list');
 }
 
 async function renderPost(posts, slug, id) {
@@ -120,14 +139,15 @@ async function renderPost(posts, slug, id) {
     post.title,
     `<article>
       <header class="post-header">
-        <a class="back-link" href="#/">← 목록으로</a>
+        <p class="prompt"><a class="back-link" href="#/">cd ..</a> <span aria-hidden="true">/</span> ~/posts/${escapeHtml(entry.file)}</p>
         <h1 class="post-title">${escapeHtml(post.title || slug)}</h1>
         <div class="post-meta">${formatDate(post.date)}</div>
         ${tagList(tags)}
       </header>
       <div class="prose">${html}</div>
     </article>
-    ${nav}`
+    ${nav}`,
+    'post'
   );
 }
 
@@ -138,7 +158,8 @@ function renderNotFound(message) {
       <h1>404</h1>
       <p>${escapeHtml(message)}</p>
       <p><a href="#/">← 홈으로 돌아가기</a></p>
-    </div>`
+    </div>`,
+    'notice'
   );
 }
 
@@ -154,7 +175,8 @@ function renderError(err) {
       <p>${escapeHtml(err.message || String(err))}</p>
       ${hint}
       <p><a href="#/">← 홈으로 돌아가기</a></p>
-    </div>`
+    </div>`,
+    'notice'
   );
 }
 
@@ -183,6 +205,7 @@ async function route() {
   try {
     const posts = await loadPosts();
     if (id !== renderId) return;
+    renderTagNav(posts, !section ? '' : section === 'tag' ? param : null);
 
     if (!section) {
       renderList(posts);

@@ -1,14 +1,4 @@
 const STORAGE_KEY = 'theme';
-const media = window.matchMedia('(prefers-color-scheme: dark)');
-
-function readStored() {
-  try {
-    const value = localStorage.getItem(STORAGE_KEY);
-    return value === 'light' || value === 'dark' ? value : null;
-  } catch {
-    return null;
-  }
-}
 
 function store(theme) {
   try {
@@ -19,7 +9,7 @@ function store(theme) {
 }
 
 function currentTheme() {
-  return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+  return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
 }
 
 function apply(theme, button) {
@@ -29,17 +19,13 @@ function apply(theme, button) {
   button.setAttribute('aria-label', dark ? '라이트 모드로 전환' : '다크 모드로 전환');
 }
 
+// 기본 테마는 블랙 네온(dark)이고, 사용자가 라이트를 고르면 그 선택을 기억한다
 export function initThemeToggle(button) {
-  apply(readStored() || currentTheme(), button);
+  apply(currentTheme(), button);
 
   button.addEventListener('click', () => {
     const next = currentTheme() === 'dark' ? 'light' : 'dark';
     apply(next, button);
     store(next);
-  });
-
-  // 사용자가 직접 고른 적이 없을 때만 OS 설정 변경을 따라간다
-  media.addEventListener('change', (event) => {
-    if (!readStored()) apply(event.matches ? 'dark' : 'light', button);
   });
 }
