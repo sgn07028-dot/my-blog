@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="방향키·스와이프로 숫자 타일을 밀어 합치는 2048 퍼즐 게임">
+  <title>2048 · my_blog</title>
+  <script>
+    // 첫 렌더링 전에 테마와 미리보기 모드를 정해 깜빡임(FOUC)을 막는다. 테마 키는 블로그와 같다
+    (function () {
+      let theme = null;
+      try { theme = localStorage.getItem('theme'); } catch (e) {}
+      const root = document.documentElement;
+      root.dataset.theme = theme === 'light' ? 'light' : 'dark';
+      if (new URLSearchParams(location.search).get('preview') === '1') {
+        root.classList.add('is-preview');
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div class="top-row">
+        <p class="prompt">&gt; ./2048</p>
+        <div class="top-actions">
+          <a class="back-link" href="../../">&larr; cd ../..</a>
+          <button class="theme-toggle" id="theme-toggle" type="button" aria-label="라이트 모드로 전환">
+            <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="title-row">
+        <h1 class="app-title">2048</h1>
+        <div class="scoreboard">
+          <div class="score-box">
+            <span class="score-label">SCORE</span>
+            <span class="score-value" id="score">0</span>
+            <span class="score-delta" id="score-delta" aria-hidden="true"></span>
+          </div>
+          <div class="score-box">
+            <span class="score-label">BEST</span>
+            <span class="score-value" id="best">0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-row">
+        <p class="tagline">// 같은 숫자를 합쳐 2048을 만드세요</p>
+        <button class="btn" id="new-game" type="button">new_game</button>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <div class="board" id="board" role="group" aria-label="2048 게임판" aria-describedby="controls-help" tabindex="0">
+        <div class="grid" aria-hidden="true">
+          <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+          <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+          <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+          <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        </div>
+        <div class="tiles" id="tiles" aria-hidden="true"></div>
+      </div>
+      <p class="visually-hidden" id="live" aria-live="polite"></p>
+    </main>
+
+    <footer class="app-footer">
+      <p class="help" id="controls-help">방향키 또는 W·A·S·D로, 모바일에서는 보드를 스와이프해 타일을 움직입니다.</p>
+      <a class="back-link" href="../../">블로그로 돌아가기</a>
+    </footer>
+  </div>
+
+  <dialog class="overlay" id="overlay" aria-modal="true" aria-labelledby="overlay-title" aria-describedby="overlay-message">
+    <h2 class="overlay-title" id="overlay-title"></h2>
+    <p class="overlay-message" id="overlay-message"></p>
+    <div class="overlay-actions">
+      <button class="btn btn-primary" id="overlay-primary" type="button"></button>
+      <button class="btn" id="overlay-secondary" type="button"></button>
+    </div>
+  </dialog>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

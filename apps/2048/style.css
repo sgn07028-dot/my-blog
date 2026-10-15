@@ -1,0 +1,663 @@
+/* 2048 앱 스타일. 앱은 자체 완결이라 블로그 css/style.css의 색 변수를 복사해 쓴다(링크하지 않음). */
+
+/* ===== 색·크기 변수 (다크 = 블랙 네온, 기본) ===== */
+:root {
+  --color-bg: #050507;
+  --color-surface: #0b0b11;
+  --color-surface-2: #12121c;
+  --color-text: #d7fff1;
+  --color-text-muted: #86a9a0;
+  --color-border: rgba(0, 240, 255, 0.22);
+  --color-border-strong: #00f0ff;
+  --color-accent: #00f0ff;
+  --color-link: #ff4fd8;
+  --color-link-hover: #ff9cec;
+  --color-link-bg: rgba(255, 79, 216, 0.1);
+  --color-highlight: #39ff14;
+  --color-tag: #f5ff3b;
+  --color-tag-bg: rgba(245, 255, 59, 0.07);
+  --color-on-accent: #050507;
+  --color-grid: rgba(0, 240, 255, 0.035);
+  --color-backdrop: rgba(5, 5, 7, 0.78);
+
+  --glow-accent: 0 0 4px rgba(0, 240, 255, 0.75), 0 0 18px rgba(0, 240, 255, 0.4);
+  --glow-link: 0 0 4px rgba(255, 79, 216, 0.75), 0 0 14px rgba(255, 79, 216, 0.4);
+  --glow-highlight: 0 0 4px rgba(57, 255, 20, 0.7), 0 0 12px rgba(57, 255, 20, 0.35);
+  --glow-box: 0 0 0 1px rgba(0, 240, 255, 0.65), 0 0 22px rgba(0, 240, 255, 0.22), inset 0 0 22px rgba(0, 240, 255, 0.05);
+
+  /* 타일 단계별 색: 1(2·4) 민트, 2(8·16) 그린, 3(32·64) 옐로, 4(128·256) 핑크, 5(512·1024) 시안, 6(2048) 시안 채움, 7(4096+) 핑크 채움 */
+  --tile-1-text: #d7fff1;
+  --tile-1-bg: #1a1a28;
+  --tile-1-border: rgba(215, 255, 241, 0.28);
+  --tile-1-glow: none;
+  --tile-2-text: #39ff14;
+  --tile-2-bg: rgba(57, 255, 20, 0.1);
+  --tile-2-border: rgba(57, 255, 20, 0.6);
+  --tile-2-glow: 0 0 8px rgba(57, 255, 20, 0.25);
+  --tile-3-text: #f5ff3b;
+  --tile-3-bg: rgba(245, 255, 59, 0.1);
+  --tile-3-border: rgba(245, 255, 59, 0.6);
+  --tile-3-glow: 0 0 8px rgba(245, 255, 59, 0.25);
+  --tile-4-text: #ff4fd8;
+  --tile-4-bg: rgba(255, 79, 216, 0.12);
+  --tile-4-border: rgba(255, 79, 216, 0.7);
+  --tile-4-glow: 0 0 12px rgba(255, 79, 216, 0.4);
+  --tile-5-text: #00f0ff;
+  --tile-5-bg: rgba(0, 240, 255, 0.14);
+  --tile-5-border: rgba(0, 240, 255, 0.75);
+  --tile-5-glow: 0 0 12px rgba(0, 240, 255, 0.4);
+  --tile-6-text: #050507;
+  --tile-6-bg: #00f0ff;
+  --tile-6-border: #00f0ff;
+  --tile-6-glow: 0 0 10px rgba(0, 240, 255, 0.8), 0 0 28px rgba(0, 240, 255, 0.5);
+  --tile-7-text: #050507;
+  --tile-7-bg: #ff4fd8;
+  --tile-7-border: #ff4fd8;
+  --tile-7-glow: 0 0 10px rgba(255, 79, 216, 0.8), 0 0 28px rgba(255, 79, 216, 0.5);
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", "Segoe UI", Roboto, "Malgun Gothic", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "D2Coding", "Cascadia Code", Menlo, Consolas, "Liberation Mono", monospace;
+
+  --radius: 4px;
+  --gap: 8px;
+  --move-ms: 120ms;
+
+  color-scheme: dark;
+}
+
+/* ===== 라이트 테마 ===== */
+:root[data-theme="light"] {
+  --color-bg: #f6f7fb;
+  --color-surface: #ffffff;
+  --color-surface-2: #eceef5;
+  --color-text: #15151f;
+  --color-text-muted: #555a6b;
+  --color-border: #d7dae6;
+  --color-border-strong: #007c99;
+  --color-accent: #007c99;
+  --color-link: #c0008f;
+  --color-link-hover: #8f006b;
+  --color-link-bg: #fde6f6;
+  --color-highlight: #1d7a00;
+  --color-tag: #5f5200;
+  --color-tag-bg: #fff6b8;
+  --color-on-accent: #ffffff;
+  --color-grid: transparent;
+  --color-backdrop: rgba(21, 21, 31, 0.45);
+
+  --glow-accent: none;
+  --glow-link: none;
+  --glow-highlight: none;
+  --glow-box: 0 0 0 1px #007c99, 0 6px 20px rgba(21, 21, 31, 0.08);
+
+  --tile-1-text: #15151f;
+  --tile-1-bg: #ffffff;
+  --tile-1-border: #c9ccd9;
+  --tile-1-glow: none;
+  --tile-2-text: #1b6600;
+  --tile-2-bg: #e8f6e2;
+  --tile-2-border: #1d7a00;
+  --tile-2-glow: none;
+  --tile-3-text: #5f5200;
+  --tile-3-bg: #fff6b8;
+  --tile-3-border: #8a7800;
+  --tile-3-glow: none;
+  --tile-4-text: #a8007d;
+  --tile-4-bg: #fde6f6;
+  --tile-4-border: #c0008f;
+  --tile-4-glow: none;
+  --tile-5-text: #00627a;
+  --tile-5-bg: #e0f4f8;
+  --tile-5-border: #007c99;
+  --tile-5-glow: none;
+  --tile-6-text: #ffffff;
+  --tile-6-bg: #007c99;
+  --tile-6-border: #007c99;
+  --tile-6-glow: none;
+  --tile-7-text: #ffffff;
+  --tile-7-bg: #c0008f;
+  --tile-7-border: #c0008f;
+  --tile-7-glow: none;
+
+  color-scheme: light;
+}
+
+@media (min-width: 520px) {
+  :root {
+    --gap: 12px;
+  }
+}
+
+/* ===== 기본 ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  background-color: var(--color-bg);
+  background-image:
+    linear-gradient(var(--color-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+a {
+  color: var(--color-link);
+}
+
+a:hover {
+  color: var(--color-link-hover);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+button {
+  font: inherit;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ===== 레이아웃 ===== */
+.app {
+  width: 100%;
+  max-width: calc(480px + 32px);
+  margin: 0 auto;
+  padding: 16px 16px 32px;
+}
+
+/* ===== 헤더 ===== */
+.top-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.prompt {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  color: var(--color-highlight);
+  text-shadow: var(--glow-highlight);
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-shadow: var(--glow-link);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--color-accent);
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--glow-box);
+}
+
+.icon-moon {
+  display: none;
+}
+
+:root[data-theme="light"] .icon-sun {
+  display: none;
+}
+
+:root[data-theme="light"] .icon-moon {
+  display: block;
+}
+
+.title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.app-title {
+  margin: 0;
+  font-size: clamp(2.5rem, 12vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--color-accent);
+  text-shadow: var(--glow-accent);
+}
+
+.scoreboard {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.score-box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 84px;
+  padding: 6px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.score-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.score-value {
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-tag);
+}
+
+.score-delta {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 4px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-align: center;
+  color: var(--color-highlight);
+  text-shadow: var(--glow-highlight);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.score-delta.is-active {
+  animation: score-float 600ms ease-out forwards;
+}
+
+@keyframes score-float {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-28px);
+  }
+}
+
+.sub-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 12px 0 16px;
+}
+
+.tagline {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+/* ===== 버튼 ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--color-link);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--color-link);
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* .btn의 display가 UA의 [hidden] 규칙을 덮어쓰므로 숨김을 다시 확실히 한다 */
+.btn[hidden] {
+  display: none;
+}
+
+.btn:hover {
+  background: var(--color-link-bg);
+  text-shadow: var(--glow-link);
+}
+
+.btn.is-confirm {
+  border-color: var(--color-tag);
+  background: var(--color-tag-bg);
+  color: var(--color-tag);
+}
+
+.btn-primary {
+  background: var(--color-link);
+  color: var(--color-on-accent);
+}
+
+.btn-primary:hover {
+  background: var(--color-link-hover);
+  text-shadow: none;
+}
+
+/* ===== 보드 ===== */
+.app-main {
+  display: flex;
+  justify-content: center;
+}
+
+.board {
+  position: relative;
+  width: min(100%, 480px);
+  aspect-ratio: 1;
+  padding: var(--gap);
+  border-radius: 6px;
+  background: var(--color-surface);
+  box-shadow: var(--glow-box);
+  /* 보드 위 스와이프가 페이지 스크롤·당겨서 새로고침·더블 탭 확대로 새지 않게 한다 */
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* 타일 글자 크기를 보드 너비(cqi) 기준으로 잡기 위해 */
+  container-type: inline-size;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: var(--gap);
+  width: 100%;
+  height: 100%;
+}
+
+.cell {
+  border-radius: var(--radius);
+  background: var(--color-surface-2);
+}
+
+.tiles {
+  position: absolute;
+  inset: var(--gap);
+}
+
+/* translate의 %는 타일 자신의 크기(= 칸 크기) 기준이라 JS가 픽셀을 계산하지 않아도 화면 크기에 맞춰진다 */
+.tile {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: calc((100% - 3 * var(--gap)) / 4);
+  height: calc((100% - 3 * var(--gap)) / 4);
+  transform: translate(calc(var(--col) * (100% + var(--gap))), calc(var(--row) * (100% + var(--gap))));
+  transition: transform var(--move-ms) ease-out;
+}
+
+.tile-merged,
+.tile-new {
+  z-index: 2;
+}
+
+.tile-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--tile-border);
+  border-radius: var(--radius);
+  background: var(--tile-bg);
+  box-shadow: var(--tile-glow);
+  color: var(--tile-text);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  font-size: 2rem;
+  font-size: 9.5cqi;
+}
+
+.tile[data-digits="3"] .tile-inner {
+  font-size: 1.7rem;
+  font-size: 8cqi;
+}
+
+.tile[data-digits="4"] .tile-inner {
+  font-size: 1.4rem;
+  font-size: 6.6cqi;
+}
+
+.tile[data-digits="5"] .tile-inner {
+  font-size: 1.15rem;
+  font-size: 5.5cqi;
+}
+
+.tile[data-tier="1"] { --tile-text: var(--tile-1-text); --tile-bg: var(--tile-1-bg); --tile-border: var(--tile-1-border); --tile-glow: var(--tile-1-glow); }
+.tile[data-tier="2"] { --tile-text: var(--tile-2-text); --tile-bg: var(--tile-2-bg); --tile-border: var(--tile-2-border); --tile-glow: var(--tile-2-glow); }
+.tile[data-tier="3"] { --tile-text: var(--tile-3-text); --tile-bg: var(--tile-3-bg); --tile-border: var(--tile-3-border); --tile-glow: var(--tile-3-glow); }
+.tile[data-tier="4"] { --tile-text: var(--tile-4-text); --tile-bg: var(--tile-4-bg); --tile-border: var(--tile-4-border); --tile-glow: var(--tile-4-glow); }
+.tile[data-tier="5"] { --tile-text: var(--tile-5-text); --tile-bg: var(--tile-5-bg); --tile-border: var(--tile-5-border); --tile-glow: var(--tile-5-glow); }
+.tile[data-tier="6"] { --tile-text: var(--tile-6-text); --tile-bg: var(--tile-6-bg); --tile-border: var(--tile-6-border); --tile-glow: var(--tile-6-glow); }
+.tile[data-tier="7"] { --tile-text: var(--tile-7-text); --tile-bg: var(--tile-7-bg); --tile-border: var(--tile-7-border); --tile-glow: var(--tile-7-glow); }
+
+/* 새 타일·합친 타일은 이동이 끝난 뒤(--move-ms 지연) 나타난다. backwards로 지연 동안 첫 프레임 상태를 유지 */
+.tile-new .tile-inner {
+  animation: tile-appear 150ms ease-out var(--move-ms) backwards;
+}
+
+.tile-new.tile-now .tile-inner {
+  animation-delay: 0ms;
+}
+
+.tile-merged .tile-inner {
+  animation: tile-pop 150ms ease-out var(--move-ms) backwards;
+}
+
+@keyframes tile-appear {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes tile-pop {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  1% {
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.12);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ===== 오버레이(승리/게임 오버) ===== */
+.overlay {
+  width: min(calc(100% - 32px), 360px);
+  padding: 24px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 6px;
+  background: var(--color-surface);
+  box-shadow: var(--glow-box);
+  color: var(--color-text);
+  text-align: center;
+}
+
+.overlay::backdrop {
+  background: var(--color-backdrop);
+}
+
+.overlay-title {
+  margin: 0 0 8px;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  color: var(--color-accent);
+  text-shadow: var(--glow-accent);
+}
+
+.overlay[data-type="over"] .overlay-title {
+  color: var(--color-link);
+  text-shadow: var(--glow-link);
+}
+
+.overlay-message {
+  margin: 0 0 20px;
+  color: var(--color-text);
+}
+
+.overlay-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* ===== 푸터 ===== */
+.app-footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.help {
+  margin: 0 0 4px;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+/* ===== 세로가 짧은 가로 모드 휴대폰: 헤더를 왼쪽, 보드를 오른쪽에 두어 한 화면에 들어오게 ===== */
+@media (orientation: landscape) and (max-height: 560px) {
+  .app {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 24px;
+    align-items: start;
+    max-width: 960px;
+  }
+
+  .app-header,
+  .app-footer {
+    grid-column: 1;
+  }
+
+  .app-main {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .app-footer {
+    text-align: left;
+  }
+
+  .board {
+    width: min(480px, calc(100vh - 32px));
+    width: min(480px, calc(100svh - 32px));
+  }
+}
+
+/* ===== 미리보기 모드(블로그 카드 iframe): 보드만 꽉 차게 ===== */
+.is-preview body {
+  overflow: hidden;
+}
+
+.is-preview .app-header,
+.is-preview .app-footer {
+  display: none;
+}
+
+.is-preview .app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: none;
+  min-height: 100vh;
+  padding: 8px;
+}
+
+.is-preview .board {
+  width: min(calc(100vw - 16px), calc(100vh - 16px));
+}
+
+/* ===== 동작 줄이기 ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

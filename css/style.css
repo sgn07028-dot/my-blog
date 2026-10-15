@@ -474,6 +474,102 @@ a:hover {
   line-height: 1.7;
 }
 
+/* ===== 웹앱 카드 (홈 글 목록 아래) ===== */
+.app-section {
+  margin-top: 56px;
+}
+
+.section-heading {
+  margin: 0;
+  color: var(--color-accent);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  text-shadow: var(--glow-accent);
+}
+
+.app-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.app-card {
+  position: relative;
+  height: 100%;
+  padding: 16px 16px 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.app-card:hover,
+.app-card:focus-within {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--glow-box);
+  transform: translateY(-2px);
+}
+
+.app-preview {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+}
+
+/* 미리보기가 클릭을 가로채지 않고 카드 링크로 넘기게 한다 */
+.app-preview iframe,
+.app-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  pointer-events: none;
+}
+
+.app-preview img {
+  object-fit: cover;
+}
+
+.app-card-title {
+  margin: 14px 0 6px;
+  font-size: 1.1875rem;
+  line-height: 1.45;
+}
+
+.app-card-title a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.app-card-title a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.app-card:hover .app-card-title a,
+.app-card-title a:focus-visible {
+  color: var(--color-accent);
+  text-shadow: var(--glow-accent);
+}
+
+.app-card-title a:focus-visible {
+  outline: none;
+}
+
+.app-card-desc {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+
 /* ===== 글 상세 ===== */
 .post-header {
   margin-bottom: 40px;
@@ -759,6 +855,10 @@ a:hover {
     font-size: 1.625rem;
   }
 
+  .app-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .post-nav {
     grid-template-columns: 1fr 1fr;
   }
@@ -854,7 +954,9 @@ a:hover {
   }
 
   .post-card:hover,
-  .post-card:focus-within {
+  .post-card:focus-within,
+  .app-card:hover,
+  .app-card:focus-within {
     transform: none;
   }
 }
